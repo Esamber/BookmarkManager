@@ -13,7 +13,7 @@ namespace BookmarkManager.Data
         {
             _connectionString = connectionString;
         }
-        public void AddBookmark(string title, string urlString, int userId)
+        public void AddBookmark(string title, string urlString, int userId, int bookmarkId)
         {
             using var ctx = new BookmarksContext(_connectionString);
             Url url = GetUrl(urlString);
@@ -28,7 +28,7 @@ namespace BookmarkManager.Data
                 ctx.SaveChanges();
                 urlId = url.Id;
             }
-            var bookmark = new Bookmark { Title = title, UrlId = urlId, UserId = userId };
+            var bookmark = new Bookmark { Title = title, UrlId = urlId, UserId = userId, Id = bookmarkId };
             ctx.Bookmarks.Add(bookmark);
             ctx.SaveChanges();
         }
@@ -55,7 +55,10 @@ namespace BookmarkManager.Data
         public List<Bookmark> GetBookmarks(int id)
         {
             using var ctx = new BookmarksContext(_connectionString);
-            return ctx.Bookmarks.Where(b => b.UserId == id).ToList();
+            return ctx.Bookmarks.Where(b => b.UserId == id)
+                .Include(b => b.User)
+                .Include(b => b.Url)
+                .ToList();
         }
 
         public void UpdateTitle(int id, string title)
@@ -63,6 +66,12 @@ namespace BookmarkManager.Data
             using var ctx = new BookmarksContext(_connectionString);
             ctx.Database.ExecuteSqlInterpolated(
                 $"UPDATE Bookmarks SET Title = {title} WHERE Id = {id}");
+        }
+
+        public int GetCount()
+        {
+            using var ctx = new BookmarksContext(_connectionString);
+            return ctx.Bookmarks.Count();
         }
     }
 }

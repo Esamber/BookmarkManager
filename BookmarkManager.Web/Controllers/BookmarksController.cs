@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,13 @@ namespace BookmarkManager.Web.Controllers
             _connectionString = configuration.GetConnectionString("ConStr");
         }
 
+        [Authorize]
         [HttpPost]
         [Route("AddBookmark")]
         public void AddBookmark(BookmarkViewModel viewModel)
         {
             var repo = new BookmarkRepository(_connectionString);
-            repo.AddBookmark(viewModel.Title, viewModel.UrlString, viewModel.UserId);
+            repo.AddBookmark(viewModel.Title, viewModel.UrlString, viewModel.UserId, viewModel.BookmarkId);
         }
 
         [HttpGet]
@@ -37,10 +39,21 @@ namespace BookmarkManager.Web.Controllers
         }
 
         [HttpGet]
+        [Route("GetCount")]
+        public int GetCount()
+        {
+            var repo = new BookmarkRepository(_connectionString);
+            return repo.GetCount();
+        }
+
+        [Authorize]
+        [HttpGet]
         [Route("GetUserBookmarks")]
         public List<Bookmark> GetUserBookmarks(User user)
         {
             var repo = new BookmarkRepository(_connectionString);
+            var accountRepo = new AccountRepository(_connectionString);
+            //int userId = accountRepo.GetByEmail(User.Identity.Name).Id;
             return repo.GetBookmarks(user.Id);
         }
 

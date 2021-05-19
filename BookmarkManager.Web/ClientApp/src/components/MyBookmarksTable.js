@@ -2,7 +2,7 @@
 import MyBookmarksRow from './MyBookmarksRow'
 import axios from 'axios'
 
-const MyBookmarksTable = ({ user }) => {
+const MyBookmarksTable = (user) => {
 
     const [bookmarks, setBookmarks] = useState();
 

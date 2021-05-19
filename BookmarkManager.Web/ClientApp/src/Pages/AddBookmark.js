@@ -7,19 +7,22 @@ import { useAuthContext } from '../AuthContext';
 const AddBookmark = () => {
 
     const { user } = useAuthContext();
-    const [formData, setFormData] = useForm({ title: '', urlString: '', userId: user.Id });
+    const [formData, setFormData] = useForm({ title: '', urlString: '', userId: user.id, id: '' });
     const history = useHistory();
+    const [count, setCount] = useState();
+
+    useEffect(() => {
+        const getBookmarkCount = async () => {
+            const count = await axios.get('/api/bookmarks/getCount');
+            setCount(count);
+        }
+        getBookmarkCount();
+    }, [])
 
     const onFormSubmit = async e => {
         e.preventDefault();
         await axios.post('/api/bookmarks/addbookmark', formData);
-        history.push('/');
-    }
-
-    const onTextChange = e => {
-        const copy = { ...formData };
-        copy[e.target.name] = e.target.value;
-        setFormData(copy);
+        history.push('/mybookmarks');
     }
 
     return (
@@ -29,9 +32,10 @@ const AddBookmark = () => {
                     <h3>Add Bookmark</h3>
                     <form onSubmit={onFormSubmit}>
                         <input type="hidden" name="userId" value={user.Id}></input>
-                        <input onChange={onTextChange} value={formData.title} type="text" name="title" placeholder="Title" className="form-control" />
+                        <input type="hidden" name="id" value={count}></input>
+                        <input onChange={setFormData} value={formData.title} type="text" name="title" placeholder="Title" className="form-control" />
                         <br />
-                        <input onChange={onTextChange} value={formData.url} type="text" name="urlString" placeholder="Url" className="form-control" />
+                        <input onChange={setFormData} value={formData.urlString} type="text" name="urlString" placeholder="Url" className="form-control" />
                         <br />
                         <button className="btn btn-primary">Add</button>
                     </form>

@@ -18,7 +18,7 @@ const Signup = () => {
     const onFormSubmit = async e => {
         e.preventDefault();
         await axios.post('/api/account/signup', formData);
-        history.push('/login');
+        history.push('/account/login');
     }
     return (
         <div className="row">

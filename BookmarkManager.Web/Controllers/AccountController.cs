@@ -26,9 +26,8 @@ namespace BookmarkManager.Web.Controllers
         [Route("signup")]
         public void Signup(SignupViewModel viewModel)
         {
-            var u = viewModel.User;
             var repo = new AccountRepository(_connectionString);
-            repo.AddUser(u.FirstName, u.LastName, u.Email, viewModel.Password);
+            repo.AddUser(viewModel, viewModel.Password);
         }
 
         [HttpPost]

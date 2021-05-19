@@ -14,11 +14,11 @@ const TopUrlTable = ({ urls }) => {
                 <tbody>
                     {urls && urls.map(u => {
                         return (
-                            <tr>
+                            <tr key={ u.id}>
                                 <td>
-                                    <a href={u.url} target="_blank">{u.url}</a>
+                                    <a href={u.urlText} target="_blank">{u.urlText}</a>
                                 </td>
-                                <td>{u.Count}</td>
+                                <td>{u.count}</td>
                             </tr>
                         )
                     })}

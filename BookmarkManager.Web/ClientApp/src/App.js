@@ -19,11 +19,11 @@ export default class App extends Component {
         <AuthContextComponent>
             <Layout>
                 <Route exact path='/' component={Home} />
-                <Route exact path='account/signup' component={Signup} />
-                <Route exact path='account/login' component={Login} />
-                <Route exact path='account/logout' component={Logout} />
-                <PrivateRoute exact path='mybookmarks' component={UserBookmarks} />
-                <PrivateRoute exact path='addbookmark' component={AddBookmark} />
+                <Route exact path='/account/signup' component={Signup} />
+                <Route exact path='/account/login' component={Login} />
+                <Route exact path='/account/logout' component={Logout} />
+                <PrivateRoute exact path='/mybookmarks' component={UserBookmarks} />
+                <PrivateRoute exact path='/addbookmark' component={AddBookmark} />
             </Layout>
         </AuthContextComponent>
     );

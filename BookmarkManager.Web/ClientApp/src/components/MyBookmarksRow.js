@@ -7,11 +7,10 @@ const MyBookmarksRow = ({ bookmark }) => {
     const [editedTitle, setEditedTitle] = useState(bookmark.title);
     const history = useHistory();
 
-    const onUpdateClick = async title => {
+    const onUpdateClick = async () => {
         let editedBookmark = { ...bookmark, Title: editedTitle }
         await axios.post('/api/bookmarks/updatetitle', { editedBookmark });
         setIsEditing(false);
-        //bookmark.title = title;
         history.push('/mybookmarks');
     }
 
@@ -29,10 +28,10 @@ const MyBookmarksRow = ({ bookmark }) => {
                     name="title"
                     className="form-control">
                 </input> :
-                bookmark.Title}
+                bookmark.title}
             </td>
             <td>
-                <a href={bookmark.url} target="_blank">{bookmark.url}</a>
+                <a href={bookmark.url.urltext} target="_blank">{bookmark.url.urltext}</a>
             </td>
             <td>
                 (!isEditing ?
