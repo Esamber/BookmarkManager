@@ -30,7 +30,7 @@ namespace BookmarkManager.Web.Controllers
 
         [HttpGet]
         [Route("GetTopFive")]
-        public List<Url> GetTopFive(BookmarkViewModel viewModel)
+        public List<Url> GetTopFive()
         {
             var repo = new BookmarkRepository(_connectionString);
             return repo.GetTopFive();
