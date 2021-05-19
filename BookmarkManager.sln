@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookmarkManager.Web", "BookmarkManager.Web\BookmarkManager.Web.csproj", "{CFDD4127-772C-44AE-B0DD-90AA0712ACDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookmarkManager.Data", "BookmarkManager.Data\BookmarkManager.Data.csproj", "{2F89B27C-5866-43F9-8910-BF1BED4C19CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFDD4127-772C-44AE-B0DD-90AA0712ACDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFDD4127-772C-44AE-B0DD-90AA0712ACDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFDD4127-772C-44AE-B0DD-90AA0712ACDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFDD4127-772C-44AE-B0DD-90AA0712ACDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F89B27C-5866-43F9-8910-BF1BED4C19CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F89B27C-5866-43F9-8910-BF1BED4C19CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F89B27C-5866-43F9-8910-BF1BED4C19CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F89B27C-5866-43F9-8910-BF1BED4C19CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C6ABAE9-2E81-4DD7-92F0-75A7E3B44E43}
+	EndGlobalSection
+EndGlobal
