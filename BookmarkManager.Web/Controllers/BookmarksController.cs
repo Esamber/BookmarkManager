@@ -49,12 +49,12 @@ namespace BookmarkManager.Web.Controllers
         [Authorize]
         [HttpGet]
         [Route("GetUserBookmarks")]
-        public List<Bookmark> GetUserBookmarks(int id)
+        public List<Bookmark> GetUserBookmarks(GetUserBookmarkViewModel viewModel)
         {
             var repo = new BookmarkRepository(_connectionString);
             //var accountRepo = new AccountRepository(_connectionString);
             //int userId = accountRepo.GetByEmail(User.Identity.Name).Id;
-            return repo.GetBookmarks(id);
+            return repo.GetBookmarks(viewModel.Id);
         }
 
         [HttpPost]
