@@ -9,7 +9,7 @@ const AddBookmark = () => {
     const { user } = useAuthContext();
     const [formData, setFormData] = useForm({ title: '', urlString: '', userId: user.id, id: '' });
     const history = useHistory();
-    const [count, setCount] = useState();
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         const getBookmarkCount = async () => {
