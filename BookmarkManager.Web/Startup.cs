@@ -56,7 +56,11 @@ namespace BookmarkManager.Web
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+
             app.UseRouting();
+            app.UseSession();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

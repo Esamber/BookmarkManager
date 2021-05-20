@@ -1,14 +1,17 @@
 ﻿import React, { useEffect, useState } from 'react';
 import MyBookmarksRow from './MyBookmarksRow'
+import { useAuthContext } from '../AuthContext';
 import axios from 'axios'
 
-const MyBookmarksTable = (user) => {
+const MyBookmarksTable = () => {
 
+    const { user } = useAuthContext();
+    const id = user.id;
     const [bookmarks, setBookmarks] = useState();
 
     useEffect(() => {
         const getUserBookmarks = async () => {
-            const { data } = await axios.get('/api/bookmarks/getUserBookmarks', user);
+            const { data } = await axios.get('/api/bookmarks/getUserBookmarks', { id });
             setBookmarks(data);
         }
         getUserBookmarks();
