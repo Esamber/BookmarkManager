@@ -13,51 +13,31 @@ namespace BookmarkManager.Data
         {
             _connectionString = connectionString;
         }
-        public void AddBookmark(string title, string urlString, int userId, int bookmarkId)
+        public void AddBookmark(string title, string url, int userId)
         {
             using var ctx = new BookmarksContext(_connectionString);
-            Url url = GetUrl(urlString);
-            int urlId;
-            if (url == null)
-            {
-                urlId = AddUrl(urlString);
-            }
-            else
-            {
-                url.Count++;
-                ctx.SaveChanges();
-                urlId = url.Id;
-            }
-            var bookmark = new Bookmark { Title = title, UrlId = urlId, UserId = userId, Id = bookmarkId };
+            var bookmark = new Bookmark { Title = title, Url = url, UserId = userId};
             ctx.Bookmarks.Add(bookmark);
             ctx.SaveChanges();
         }
-        private Url GetUrl(string urlString)
+
+        public List<TopBookmark> GetTopBookmarkedUrls()
         {
-            using var ctx = new BookmarksContext(_connectionString);
-            return ctx.Urls.FirstOrDefault(u => u.UrlText == urlString);
-        }
-        private int AddUrl(string urlString)
-        {
-            using var ctx = new BookmarksContext(_connectionString);
-            var url = new Url { UrlText = urlString };
-            url.Count = 1;
-            ctx.Urls.Add(url);
-            ctx.SaveChanges();
-            return url.Id;
-        }
-        public List<Url> GetTopFive()
-        {
-            using var ctx = new BookmarksContext(_connectionString);
-            return ctx.Urls.OrderByDescending(u => u.Count).Take(5).ToList();
+            using var context = new BookmarksContext(_connectionString);
+            return context.Bookmarks.GroupBy(b => b.Url)
+                .OrderByDescending(b => b.Count()).Take(5)
+                .Select(g => new TopBookmark
+                {
+                    Url = g.Key,
+                    Count = g.Count()
+                })
+                .ToList();
         }
 
         public List<Bookmark> GetBookmarks(int id)
         {
             using var ctx = new BookmarksContext(_connectionString);
             return ctx.Bookmarks.Where(b => b.UserId == id)
-                .Include(b => b.User)
-                .Include(b => b.Url)
                 .ToList();
         }
 
@@ -67,11 +47,10 @@ namespace BookmarkManager.Data
             ctx.Database.ExecuteSqlInterpolated(
                 $"UPDATE Bookmarks SET Title = {title} WHERE Id = {id}");
         }
-
-        public int GetCount()
+        public void Delete(int id)
         {
-            using var ctx = new BookmarksContext(_connectionString);
-            return ctx.Bookmarks.Count();
+            var ctx = new BookmarksContext(_connectionString);
+            ctx.Database.ExecuteSqlInterpolated($"DELETE FROM Bookmarks WHERE Id = {id}");
         }
     }
 }

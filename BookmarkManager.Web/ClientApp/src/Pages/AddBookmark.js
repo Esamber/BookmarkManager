@@ -7,17 +7,8 @@ import { useAuthContext } from '../AuthContext';
 const AddBookmark = () => {
 
     const { user } = useAuthContext();
-    const [formData, setFormData] = useForm({ title: '', urlString: '', userId: user.id, id: '' });
+    const [formData, setFormData] = useForm({ title: '', url: '', userId: user.id});
     const history = useHistory();
-    const [count, setCount] = useState(0);
-
-    useEffect(() => {
-        const getBookmarkCount = async () => {
-            const count = await axios.get('/api/bookmarks/getCount');
-            setCount(count);
-        }
-        getBookmarkCount();
-    }, [])
 
     const onFormSubmit = async e => {
         e.preventDefault();
@@ -32,10 +23,9 @@ const AddBookmark = () => {
                     <h3>Add Bookmark</h3>
                     <form onSubmit={onFormSubmit}>
                         <input type="hidden" name="userId" value={user.Id}></input>
-                        <input type="hidden" name="id" value={count}></input>
                         <input onChange={setFormData} value={formData.title} type="text" name="title" placeholder="Title" className="form-control" />
                         <br />
-                        <input onChange={setFormData} value={formData.urlString} type="text" name="urlString" placeholder="Url" className="form-control" />
+                        <input onChange={setFormData} value={formData.url} type="text" name="url" placeholder="Url" className="form-control" />
                         <br />
                         <button className="btn btn-primary">Add</button>
                     </form>

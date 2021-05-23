@@ -11,7 +11,7 @@ const Layout = (props) => {
             <header>
                 <nav className="navbar navbar-expand-sm navbar-dark fixed-top bg-dark border-bottom box-shadow">
                     <div className="container">
-                        <a className="navbar-brand" href="'/'">Bookmark Manager</a>
+                        <Link to='' className="navbar-brand">Bookmark Manager</Link>
                         <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -19,22 +19,18 @@ const Layout = (props) => {
                         </button>
                         <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul className="navbar-nav flex-grow-1">
-                                <li className="nav-item">
-                                    <Link to='/' className='nav-link text-light'>
-                                        Home
-                                    </Link>
-                                </li>
                                 {!user && <>
+                                    <li className="nav-item">
+                                        <Link to='/account/login' className='nav-link text-light'>
+                                            Login
+                                    </Link>
+                                    </li> 
                                     <li className="nav-item">
                                         <Link to='/account/signup' className='nav-link text-light'>
                                             Signup
                                     </Link>
                                     </li>
-                                    <li className="nav-item">
-                                        <Link to='/account/login' className='nav-link text-light'>
-                                            Login
-                                    </Link>
-                                    </li> </>}
+                                    </>}
                                 {!!user && <>
                                     <li className="nav-item">
                                         <Link to='/mybookmarks' className='nav-link text-light'>

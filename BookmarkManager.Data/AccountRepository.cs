@@ -27,14 +27,6 @@ namespace BookmarkManager.Data
             using var ctx = new BookmarksContext(_connectionString);
             return ctx.Users.FirstOrDefault(u => u.Email == email);
         }
-        //public void AddUser(string firstName, string lastName, string email, string password)
-        //{
-        //    string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
-        //    using var ctx = new BookmarksContext(_connectionString);
-        //    var user = new User { FirstName = firstName, LastName = lastName, Email = email, PasswordHash = passwordHash };
-        //    ctx.Users.Add(user);
-        //    ctx.SaveChanges();
-        //}
 
         public void AddUser(User user, string password)
         {

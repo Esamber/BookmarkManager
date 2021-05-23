@@ -5,15 +5,15 @@ import axios from 'axios'
 
 const MyBookmarksTable = () => {
 
-    const { user } = useAuthContext();
-    const id = user.id;
     const [bookmarks, setBookmarks] = useState();
 
+
+    const getUserBookmarks = async () => {
+        const { data } = await axios.get(`/api/bookmarks/getUserBookmarks`);
+        setBookmarks(data);
+    }
+
     useEffect(() => {
-        const getUserBookmarks = async () => {
-            const { data } = await axios.get('/api/bookmarks/getUserBookmarks', { id });
-            setBookmarks(data);
-        }
         getUserBookmarks();
     }, [])
 
@@ -28,7 +28,7 @@ const MyBookmarksTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {bookmarks && bookmarks.map(b => (<MyBookmarksRow bookmark={ b}/>))}
+                    {bookmarks && bookmarks.map(b => (<MyBookmarksRow bookmark={b} refresh={ getUserBookmarks}/>))}
                 </tbody>
             </table>
         </div>

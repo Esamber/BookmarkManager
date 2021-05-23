@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookmarkManager.Data.Migrations
 {
     [DbContext(typeof(BookmarksContext))]
-    [Migration("20210516173443_AddCount")]
-    partial class AddCount
+    [Migration("20210523151425_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,41 +22,36 @@ namespace BookmarkManager.Data.Migrations
 
             modelBuilder.Entity("BookmarkManager.Data.Bookmark", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UrlId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "UrlId");
-
-                    b.HasIndex("UrlId");
-
-                    b.ToTable("Bookmarks");
-                });
-
-            modelBuilder.Entity("BookmarkManager.Data.Url", b =>
-                {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UrlText")
+                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Urls");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookmarks");
+                });
+
+            modelBuilder.Entity("BookmarkManager.Data.TopBookmark", b =>
+                {
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToView("view_that_doesn't_exist");
                 });
 
             modelBuilder.Entity("BookmarkManager.Data.User", b =>
@@ -85,26 +80,13 @@ namespace BookmarkManager.Data.Migrations
 
             modelBuilder.Entity("BookmarkManager.Data.Bookmark", b =>
                 {
-                    b.HasOne("BookmarkManager.Data.Url", "Url")
-                        .WithMany("Bookmarks")
-                        .HasForeignKey("UrlId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BookmarkManager.Data.User", "User")
                         .WithMany("Bookmarks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Url");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BookmarkManager.Data.Url", b =>
-                {
-                    b.Navigation("Bookmarks");
                 });
 
             modelBuilder.Entity("BookmarkManager.Data.User", b =>

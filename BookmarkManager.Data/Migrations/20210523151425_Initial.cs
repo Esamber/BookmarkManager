@@ -7,19 +7,6 @@ namespace BookmarkManager.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Urls",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UrlText = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Urls", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -39,20 +26,15 @@ namespace BookmarkManager.Data.Migrations
                 name: "Bookmarks",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    UrlId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookmarks", x => new { x.UserId, x.UrlId });
-                    table.ForeignKey(
-                        name: "FK_Bookmarks_Urls_UrlId",
-                        column: x => x.UrlId,
-                        principalTable: "Urls",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Bookmarks", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Bookmarks_Users_UserId",
                         column: x => x.UserId,
@@ -62,18 +44,15 @@ namespace BookmarkManager.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookmarks_UrlId",
+                name: "IX_Bookmarks_UserId",
                 table: "Bookmarks",
-                column: "UrlId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Bookmarks");
-
-            migrationBuilder.DropTable(
-                name: "Urls");
 
             migrationBuilder.DropTable(
                 name: "Users");

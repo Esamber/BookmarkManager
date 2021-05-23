@@ -19,27 +19,15 @@ namespace BookmarkManager.Data
             optionsBuilder.UseSqlServer(_connectionString);
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Bookmark> Bookmarks { get; set; }
-        public DbSet<Url> Urls { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //set up composite primary key
-            modelBuilder.Entity<Bookmark>()
-                .HasKey(b => new { b.UserId, b.UrlId });
-
-            //set up foreign key from QuestionsTags to Questions
-            modelBuilder.Entity<Bookmark>()
-                .HasOne(b => b.User)
-                .WithMany(u => u.Bookmarks)
-                .HasForeignKey(b => b.UserId);
-
-            //set up foreign key from QuestionsTags to Tags
-            modelBuilder.Entity<Bookmark>()
-                .HasOne(b => b.Url)
-                .WithMany(u => u.Bookmarks)
-                .HasForeignKey(b => b.UrlId);
+            modelBuilder.Entity<TopBookmark>().HasNoKey().ToView("view_that_doesn't_exist");
         }
+
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Bookmark> Bookmarks { get; set; }
+
+        public DbSet<TopBookmark> TopBookmarks { get; set; }
     }
 }

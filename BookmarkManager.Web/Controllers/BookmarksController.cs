@@ -27,34 +27,35 @@ namespace BookmarkManager.Web.Controllers
         public void AddBookmark(BookmarkViewModel viewModel)
         {
             var repo = new BookmarkRepository(_connectionString);
-            repo.AddBookmark(viewModel.Title, viewModel.UrlString, viewModel.UserId, viewModel.BookmarkId);
+            repo.AddBookmark(viewModel.Title, viewModel.Url, viewModel.UserId);
         }
 
         [HttpGet]
         [Route("GetTopFive")]
-        public List<Url> GetTopFive()
+        public List<TopBookmark> GetTopFive()
         {
             var repo = new BookmarkRepository(_connectionString);
-            return repo.GetTopFive();
-        }
-
-        [HttpGet]
-        [Route("GetCount")]
-        public int GetCount()
-        {
-            var repo = new BookmarkRepository(_connectionString);
-            return repo.GetCount();
+            return repo.GetTopBookmarkedUrls();
         }
 
         [Authorize]
         [HttpGet]
         [Route("GetUserBookmarks")]
-        public List<Bookmark> GetUserBookmarks(GetUserBookmarkViewModel viewModel)
+        public List<Bookmark> GetUserBookmarks()
+        {
+            var acctRepo = new AccountRepository(_connectionString);
+            var user = acctRepo.GetByEmail(User.Identity.Name);
+            var repo = new BookmarkRepository(_connectionString);
+            return repo.GetBookmarks(user.Id);
+        }
+        
+        [Authorize]
+        [HttpPost]
+        [Route("DeleteBookmark")]
+        public void DeleteBookmark(int id)
         {
             var repo = new BookmarkRepository(_connectionString);
-            //var accountRepo = new AccountRepository(_connectionString);
-            //int userId = accountRepo.GetByEmail(User.Identity.Name).Id;
-            return repo.GetBookmarks(viewModel.Id);
+            repo.Delete(id);
         }
 
         [HttpPost]
@@ -64,6 +65,5 @@ namespace BookmarkManager.Web.Controllers
             var repo = new BookmarkRepository(_connectionString);
             repo.UpdateTitle(bookmark.Id, bookmark.Title);
         }
-
     }
 }
